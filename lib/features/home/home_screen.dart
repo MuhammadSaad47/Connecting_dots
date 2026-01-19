@@ -14,8 +14,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.sizeOf(context).width;
-    final aspect = w < 380 ? 1.15 : 1.3;
+    final h = MediaQuery.sizeOf(context).height;
+    final aspect = w < 380 ? 0.7 : w < 600 ? 0.8 : 0.9;
     final subtitleLines = w < 380 ? 1 : 2;
+    final padding = w < 380 ? 8.0 : 10.0;
+    final crossAxisCount = w < 400 ? 2 : 2;
 
     final tiles = <_HomeTileData>[
       _HomeTileData(
@@ -88,7 +91,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        padding: EdgeInsets.fromLTRB(16, 4, 16, 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -96,22 +99,24 @@ class HomeScreen extends StatelessWidget {
               'Welcome back!',
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w800,
+                    fontSize: w < 380 ? 16 : null,
                   ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: w < 380 ? 1 : 4),
             Text(
               'What would you like to do today?',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColors.textMuted,
+                    fontSize: w < 380 ? 11 : null,
                   ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: w < 380 ? 8 : 12),
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: w < 380 ? 4 : 8,
+                  mainAxisSpacing: w < 380 ? 4 : 8,
                   childAspectRatio: aspect,
                 ),
                 itemCount: tiles.length,
@@ -152,20 +157,20 @@ class HomeScreen extends StatelessWidget {
                         ),
                         // Content
                         Padding(
-                          padding: const EdgeInsets.all(10),
+                          padding: EdgeInsets.all(w < 380 ? 6 : padding),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.9),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(w < 380 ? 4 : 10),
                                 ),
-                                padding: const EdgeInsets.all(6),
+                                padding: EdgeInsets.all(w < 380 ? 2 : 6),
                                 child: Icon(
                                   t.icon,
                                   color: t.accent,
-                                  size: 20,
+                                  size: w < 380 ? 12 : 20,
                                 ),
                               ),
                               const Expanded(child: SizedBox()),
@@ -179,9 +184,10 @@ class HomeScreen extends StatelessWidget {
                                     ?.copyWith(
                                       fontWeight: FontWeight.w700,
                                       color: Colors.white,
+                                      fontSize: w < 380 ? 10 : null,
                                     ),
                               ),
-                              const SizedBox(height: 2),
+                              SizedBox(height: w < 380 ? 0 : 2),
                               Text(
                                 t.subtitle,
                                 maxLines: subtitleLines,
@@ -191,6 +197,7 @@ class HomeScreen extends StatelessWidget {
                                     .bodySmall
                                     ?.copyWith(
                                       color: Colors.white.withValues(alpha: 0.9),
+                                      fontSize: w < 380 ? 8 : null,
                                     ),
                               ),
                             ],
